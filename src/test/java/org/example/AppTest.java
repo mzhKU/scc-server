@@ -9,6 +9,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
@@ -34,5 +35,11 @@ class AppTest {
                 .returnResult()
                 .getResponseBody();
         assertNotNull(resp);
+    }
+
+    @Test
+    public void testSimpleWebTestClient(@Autowired WebTestClient client) {
+        client.get().uri("http://localhost:12345/app1/dev").exchange().expectBody().jsonPath("propertySources").isArray();
+        client.get().uri("http://localhost:12345/app1/dev").exchange().expectBody().jsonPath("propertySources[0].source.app-url").isEqualTo("www.dev.app1.ch");
     }
 }
