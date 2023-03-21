@@ -1,11 +1,13 @@
 spring:
+  profiles:
+    active:
+      - default
   cloud:
     config:
       server:
-        
+        git:
+          uri: file:///C:/Users/mahed/Documents/repos/test_projects/config-apps
   application:
-    name: configserver
-
-
+    name: config-server
 server:
   port: 12345
